@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BFSI Security Hub - Multi-Page App</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Load Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- App logic and Tailwind config -->
+    <script src="script.js"></script>
+</head>
+<body class="min-h-screen antialiased flex flex-col">
+
+    <!-- Navbar -->
+    <header class="bg-primary shadow-lg sticky top-0 z-10">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold text-white tracking-wider">BFSI Security Hub</span>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="nav-link text-white hover:text-teal-200 px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out" data-page="home" onclick="navigateTo('home')">Home</a>
+                    <a href="#" class="nav-link text-white hover:text-teal-200 px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out" data-page="fraud_detection" onclick="navigateTo('fraud_detection')">Fraud Detection</a>
+                    <a href="#" class="nav-link text-white hover:text-teal-200 px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out" data-page="chatbot" onclick="navigateTo('chatbot')">Chatbot</a>
+                    <a href="#" class="nav-link text-white hover:text-teal-200 px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out" data-page="csv_viewer" onclick="navigateTo('csv_viewer')">Data Viewer</a>
+                    <a href="#" class="nav-link text-white hover:text-teal-200 px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out" data-page="contact" onclick="navigateTo('contact')">Contact/About</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+
+        <!-- 1. Home Page -->
+        <div id="home" class="page-content" style="display: none;">
+            <div class="bg-white p-8 rounded-xl shadow-2xl">
+                <h1 class="text-4xl font-extrabold text-gray-900 mb-4">Welcome to the BFSI Security & Intelligence Platform</h1>
+                <p class="text-xl text-gray-600 mb-8">This platform integrates your custom Machine Learning and Large Language Models to enhance financial security and support services.</p>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="p-6 bg-teal-50 rounded-lg border border-teal-200 shadow-md">
+                        <h2 class="text-2xl font-semibold text-teal-800 mb-3 flex items-center">
+                             <svg class="w-6 h-6 mr-2 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.21a.997.997 0 011.23-.218l.245.245a1 1 0 01.17 1.059v10.375c0 1.63-1.32 2.95-2.95 2.95H5.45c-1.63 0-2.95-1.32-2.95-2.95V7.987a2.95 2.95 0 012.95-2.95h11.218z"></path></svg>
+                             Fraud Detection
+                        </h2>
+                        <p class="text-gray-600">Utilize your trained model to quickly assess the risk of individual transactions based on user-provided data. This is where your `fraud_detector.pkl` and `scaler.pkl` are deployed.</p>
+                        <button onclick="navigateTo('fraud_detection')" class="mt-4 bg-primary text-white font-medium py-2 px-4 rounded-lg hover:bg-teal-700 transition duration-150 shadow-md">Start Analysis</button>
+                    </div>
+                    <div class="p-6 bg-blue-50 rounded-lg border border-blue-200 shadow-md">
+                        <h2 class="text-2xl font-semibold text-blue-800 mb-3 flex items-center">
+                            <svg class="w-6 h-6 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12a9 9 0 01-18 0 9 9 0 0118 0z"></path></svg>
+                             BFSI Chatbot
+                        </h2>
+                        <p class="text-gray-600">Engage with your fine-tuned `phi3-bfsi-finetuned` model for conversational support regarding banking, finance, and insurance topics.</p>
+                         <button onclick="navigateTo('chatbot')" class="mt-4 bg-primary text-white font-medium py-2 px-4 rounded-lg hover:bg-teal-700 transition duration-150 shadow-md">Launch Chat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Fraud Detection Page -->
+        <div id="fraud_detection" class="page-content" style="display: none;">
+            <div class="bg-white p-8 rounded-xl shadow-2xl max-w-4xl mx-auto">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Comprehensive Transaction Fraud Detector</h1>
+
+                <form id="fraud-form" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <!-- COLUMN 1: PRIMARY & IDENTIFICATION -->
+                        <div class="md:col-span-1 space-y-4">
+                            <h2 class="text-xl font-semibold text-primary border-b border-primary/20 pb-2">Primary Details</h2>
+                            <div>
+                                <label for="user_id" class="block text-sm font-medium text-gray-700 mb-1">User ID</label>
+                                <input type="text" id="user_id" name="user_id" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-150" value="USR-73489">
+                            </div>
+                            <div>
+                                <label for="amount" class="block text-sm font-medium text-gray-700 mb-1">Transaction Amount ($)</label>
+                                <input type="number" id="amount" name="amount" step="0.01" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-150" value="1250.75">
+                            </div>
+                            <div>
+                                <label for="category" class="block text-sm font-medium text-gray-700 mb-1">Transaction Category</label>
+                                <select id="category" name="category" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-150">
+                                    <option value="Transfer">Transfer</option>
+                                    <option value="Cash Out">Cash Out</option>
+                                    <option value="Cash In">Cash In</option>
+                                    <option value="Payment">Payment</option>
+                                </select>
+                            </div>
+                             <div>
+                                <label for="merchant_id" class="block text-sm font-medium text-gray-700 mb-1">Merchant ID</label>
+                                <input type="text" id="merchant_id" name="merchant_id" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-150" value="MCH-445">
+                            </div>
+                            <div>
+                                <label for="transaction_currency" class="block text-sm font-medium text-gray-700 mb-1">Transaction Currency</label>
+                                <select id="transaction_currency" name="transaction_currency" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-150">
+                                    <option value="USD">USD</option>
+                                    <option value="UZS">UZS (Uzbekistani Som)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- COLUMN 2: TEMPORAL & SPATIAL FEATURES -->
+                        <div class="md:col-span-1 space-y-4">
+                            <h2 class="text-xl font-semibold text-primary border-b border-primary/20 pb-2">Time & Location Context</h2>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label for="transaction_date" class="block text-sm font-medium text-gray-700 mb-1">Transaction Date</label>
+                                    <input type="date" id="transaction_date" name="transaction_date" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-150">
+                                </div>
+                                <div>
+                                    <label for="transaction_time" class="block text-sm font-medium text-gray-700 mb-1">Transaction Time</label>
+                                    <input type="time" id="transaction_time" name="transaction_time" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-150">
+                                </div>
+                            </div>
+                            <div>
+                                <label for="transaction_location" class="block text-sm font-medium text-gray-700 mb-1">Transaction Location (Province)</label>
+                                <select id="transaction_location" name="transaction_location" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-150">
+                                    <option value="Tashkent">Tashkent</option>
+                                    <option value="Samarkand">Samarkand</option>
+                                    <option value="Fergana">Fergana</option>
+                                    <option value="Andijan">Andijan</option>
+                                    <option value="Namangan">Namangan</option>
+                                    <option value="Bukhara">Bukhara</option>
+                                    <option value="Khorezm">Khorezm</option>
+                                    <option value="Kashkadarya">Kashkadarya</option>
+                                    <option value="Surkhandarya">Surkhandarya</option>
+                                    <option value="Jizzakh">Jizzakh</option>
+                                    <option value="Sirdarya">Sirdarya</option>
+                                    <option value="Navoiy">Navoiy</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="distance_between_transactions_km" class="block text-sm font-medium text-gray-700 mb-1">Distance Between Trans. (km)</label>
+                                <input type="number" id="distance_between_transactions_km" name="distance_between_transactions_km" step="0.1" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-150" value="50.2">
+                            </div>
+                            <div>
+                                <label for="time_since_last_transaction_min" class="block text-sm font-medium text-gray-700 mb-1">Time Since Last Trans. (min)</label>
+                                <input type="number" id="time_since_last_transaction_min" name="time_since_last_transaction_min" step="0.1" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-150" value="15.5">
+                            </div>
+                        </div>
+
+                        <!-- COLUMN 3: DEVICE & VELOCITY FEATURES -->
+                        <div class="md:col-span-1 space-y-4">
+                            <h2 class="text-xl font-semibold text-primary border-b border-primary/20 pb-2">Device & Velocity</h2>
+                            <div>
+                                <label for="device_id" class="block text-sm font-medium text-gray-700 mb-1">Device ID</label>
+                                <input type="text" id="device_id" name="device_id" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-150" value="DEV-876">
+                            </div>
+                            <div>
+                                <label for="card_type" class="block text-sm font-medium text-gray-700 mb-1">Card Type</label>
+                                <select id="card_type" name="card_type" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-150">
+                                    <option value="UzCard">UzCard</option>
+                                    <option value="Humo">Humo</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="transaction_status" class="block text-sm font-medium text-gray-700 mb-1">Transaction Status</label>
+                                <select id="transaction_status" name="transaction_status" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-150">
+                                    <option value="Successful">Successful</option>
+                                    <option value="Reversed">Reversed</option>
+                                    <option value="Failed">Failed</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="previous_transaction_count" class="block text-sm font-medium text-gray-700 mb-1">Previous Transaction Count (24h)</label>
+                                <input type="number" id="previous_transaction_count" name="previous_transaction_count" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-150" value="12">
+                            </div>
+                            <div>
+                                <label for="transaction_velocity" class="block text-sm font-medium text-gray-700 mb-1">Transaction Velocity (Count/Hour)</label>
+                                <input type="number" id="transaction_velocity" name="transaction_velocity" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-150" value="3">
+                            </div>
+                            <div>
+                                <label for="authentication_method" class="block text-sm font-medium text-gray-700 mb-1">Authentication Method</label>
+                                <select id="authentication_method" name="authentication_method" required class="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-150">
+                                    <option value="Biometric">Biometric</option>
+                                    <option value="Password">Password</option>
+                                    <option value="2FA">2FA (Two-Factor Auth)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SUBMIT BUTTON -->
+                    <button type="submit" class="w-full mt-6 bg-primary text-white font-semibold py-3 px-4 rounded-lg hover:bg-teal-700 transition duration-150 shadow-lg flex items-center justify-center">
+                        Detect Fraud
+                    </button>
+                </form>
+                <div id="fraud-result" class="mt-6">
+                    <!-- Results displayed here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Chatbot Page -->
+        <div id="chatbot" class="page-content" style="display: none;">
+            <div class="bg-white rounded-xl shadow-2xl flex flex-col h-[70vh] max-w-3xl mx-auto">
+                <!-- Chat History Area -->
+                <div id="chat-history" class="p-4 flex-grow overflow-y-auto space-y-2 flex flex-col bg-secondary-bg rounded-t-xl">
+                    <!-- Messages will be rendered here -->
+                </div>
+                <!-- Chat Input Form -->
+                <form id="chat-form" class="p-4 border-t border-gray-200 bg-white rounded-b-xl flex items-center">
+                    <input type="text" id="chat-input" placeholder="Ask your BFSI question here..." class="flex-grow p-3 border border-gray-300 rounded-l-lg focus:ring-primary focus:border-primary transition duration-150" required>
+                    <button type="submit" class="bg-primary text-white font-semibold py-3 px-6 rounded-r-lg hover:bg-teal-700 transition duration-150 shadow-md">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7"></path></svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- 4. CSV Viewer Page -->
+        <div id="csv_viewer" class="page-content" style="display: none;">
+            <div class="bg-white p-8 rounded-xl shadow-2xl">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Transaction Data Viewer (Mocked CSV)</h1>
+                <p class="text-gray-600 mb-4">This table shows a snapshot of transaction data, demonstrating how your system could visualize transaction logs. Data is fetched from the backend API.</p>
+                
+                <div id="csv-status" class="py-4 text-center"></div>
+
+                <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-lg">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr id="csv-table-head">
+                                <!-- Headers populated by JS -->
+                            </tr>
+                        </thead>
+                        <tbody id="csv-table-body" class="bg-white divide-y divide-gray-200">
+                            <!-- Rows populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. Contact/About Page (Added for completeness) -->
+        <div id="contact" class="page-content" style="display: none;">
+            <div class="bg-white p-8 rounded-xl shadow-2xl max-w-xl mx-auto">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">About the BFSI Security Hub</h1>
+                <p class="text-gray-600 mb-4">This application serves as a demonstration of integrating specialized machine learning models into a modern web environment.</p>
+                
+                <h2 class="text-2xl font-semibold text-primary mb-3 mt-6">Core Components</h2>
+                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                    <li>**Fraud Detection:** Custom binary classification model (`fraud_detector.pkl`).</li>
+                    <li>**Chatbot:** Fine-tuned LLM (`phi3-bfsi-finetuned`) specialized for financial, banking, and insurance (BFSI) queries.</li>
+                    <li>**Backend:** Python Flask API for model serving and data management.</li>
+                    <li>**Frontend:** Single-page application using HTML, JavaScript, and Tailwind CSS for a responsive, multi-page experience.</li>
+                </ul>
+
+                <h2 class="text-2xl font-semibold text-primary mb-3 mt-6">Contact & Support</h2>
+                <p class="text-gray-700">For inquiries or technical support regarding the model integration, please refer to the project documentation.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Structure (for non-alert messages) -->
+    <div id="custom-modal" class="fixed inset-0 bg-gray-600 bg-opacity-75 z-50 hidden flex items-center justify-center transition-opacity duration-300" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="bg-white rounded-xl overflow-hidden shadow-xl transform transition-all sm:w-full sm:max-w-lg">
+            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <div class="sm:flex sm:items-start">
+                    <div id="modal-icon" class="mx-auto flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
+                        <!-- Icon will be set by JS -->
+                    </div>
+                    <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                            Modal Title
+                        </h3>
+                        <div class="mt-2">
+                            <p class="text-sm text-gray-500" id="modal-message">
+                                Modal Message
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                <button type="button" id="modal-close-btn" class="w-full inline-flex justify-center rounded-lg border border-transparent shadow-sm px-4 py-2 bg-primary text-base font-medium text-white hover:bg-teal-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm transition duration-150">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

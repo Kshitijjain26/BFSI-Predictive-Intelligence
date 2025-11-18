@@ -1,0 +1,35 @@
+/* Custom styles for appearance */
+:root {
+    --primary-color: #0d9488; /* Teal 600 */
+    --secondary-color: #f0fdfa; /* Teal 50 */
+}
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--secondary-bg);
+}
+/* Page content container to handle visibility */
+.page-content {
+    min-height: calc(100vh - 80px); /* Adjust for header height */
+}
+.message-bubble {
+    max-width: 80%;
+    padding: 8px 12px;
+    border-radius: 18px;
+    margin-bottom: 10px;
+    word-wrap: break-word;
+}
+.user-bubble {
+    background-color: var(--primary-color);
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+}
+.bot-bubble {
+    background-color: #e5e7eb;
+    color: #1f2937;
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+}
+.nav-link.active {
+    border-bottom: 3px solid white;
+}
